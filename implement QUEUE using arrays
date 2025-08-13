@@ -1,0 +1,114 @@
+// Write a program to implement QUEUE using arrays that performs following operations:
+// (a) INSERT (b) DELETE (c) PEEK (d) CHANGE (e) DISPLAY (f) isEmpty (g) isFull
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 5
+
+int Que[MAX], front = -1, rear = -1;
+int value;
+
+int isFull() {
+    if (rear == MAX - 1)
+        return 1;
+    else
+        return 0;
+}
+
+void insert() {
+    if (isFull() == 1)
+        printf("Queue is Overflow.\n");
+    else {
+        printf("Enter a Value: ");
+        scanf("%d", &value);
+        if (front == -1)
+            front++;
+        rear++;
+        Que[rear] = value;
+        printf("Insertion Done.\n");
+    }
+}
+
+int isEmpty() {
+    if (front == -1)
+        return 1;
+    else
+        return 0;
+}
+
+void del() {
+    if (isEmpty() == 1)
+        printf("Queue is Underflow.\n");
+    else {
+        value = Que[front];
+        printf("%d is deleted.\n", value);
+        if (front == rear)
+            front = rear = -1;
+        else
+            front++;
+    }
+}
+
+void peek() {
+    if (isEmpty() == 1)
+        printf("Queue is Empty.\n");
+    else
+        printf("Last inserted Value is %d.\n", Que[rear]);
+}
+
+void change() {
+    int index, newvalue;
+    printf("Enter an index and new value: ");
+    scanf("%d %d", &index, &newvalue);
+    if (index > (rear - front + 1) || index <= 0)
+        printf("Invalid Index..\n");
+    else {
+        Que[index + front - 1] = newvalue;
+        printf("Value updated.\n");
+    }
+}
+
+void display() {
+    int i;
+    if (isEmpty() == 1)
+        printf("Queue is Empty.\n");
+    else {
+        printf("Queue is: ");
+        for (i = front; i <= rear; i++)
+            printf("%d ", Que[i]);
+        printf("\n");
+    }
+}
+
+int main() {
+    int ch;
+    while (1) {
+        printf("\n\nQueue Operation:");
+        printf("\n1. Insert\n2. Delete\n3. Peek\n4. Change\n5. Display\n6. isEmpty\n7. isFull\n8. Exit");
+        printf("\nEnter Your Choice: ");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 1: insert(); break;
+            case 2: del(); break;
+            case 3: peek(); break;
+            case 4: change(); break;
+            case 5: display(); break;
+            case 6:
+                if (isEmpty() == 1)
+                    printf("Yes, Queue is Empty.\n");
+                else
+                    printf("No, Queue is not Empty.\n");
+                break;
+            case 7:
+                if (isFull() == 1)
+                    printf("Yes, Queue is Full.\n");
+                else
+                    printf("No, Queue is Not Full.\n");
+                break;
+            case 8: exit(0);
+            default: printf("Invalid Choice; Try Again!\n");
+        }
+    }
+}
