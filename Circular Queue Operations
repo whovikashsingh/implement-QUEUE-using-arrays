@@ -1,0 +1,160 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 5 // Maximum size of the circular queue
+
+int CQ[MAX];               // Array to store queue elements
+int front = -1, rear = -1; // Front and rear pointers
+
+// Function to check if queue is full
+int isFull()
+{
+    if ((front == 0 && rear == MAX - 1) || (front == rear + 1))
+        return 1;
+    return 0;
+}
+
+// Function to check if queue is empty
+int isEmpty()
+{
+    if (front == -1)
+        return 1;
+    return 0;
+}
+
+// Insert element in circular queue
+void insert()
+{
+    int item;
+    if (isFull())
+    {
+        printf("Circular Queue is Overflow.\n");
+        return;
+    }
+    printf("Enter the value: ");
+    scanf("%d", &item);
+
+    if (front == -1) // First insertion
+        front = 0;
+
+    rear = (rear + 1) % MAX; // Circular increment
+    CQ[rear] = item;
+    printf("Insertion Done.\n");
+}
+
+// Delete element from circular queue
+void del()
+{
+    if (isEmpty())
+    {
+        printf("Circular Queue is Underflow.\n");
+        return;
+    }
+    printf("%d is Deleted.\n", CQ[front]);
+
+    if (front == rear)
+    { // Only one element
+        front = -1;
+        rear = -1;
+    }
+    else
+    {
+        front = (front + 1) % MAX;
+    }
+}
+
+// Peek last inserted value
+void peek()
+{
+    if (isEmpty())
+    {
+        printf("Circular Queue is Empty.\n");
+    }
+    else
+    {
+        printf("Last inserted value is %d\n", CQ[rear]);
+    }
+}
+
+// Display all elements in circular queue
+void display()
+{
+    int i;
+    if (isEmpty())
+    {
+        printf("Circular Queue is Empty.\n");
+        return;
+    }
+    printf("Circular Queue is: ");
+    for (i = front; i != rear; i = (i + 1) % MAX)
+    {
+        printf("%d ", CQ[i]);
+    }
+    printf("%d\n", CQ[rear]);
+}
+
+// Change an element at a specific position
+void change()
+{
+    int index, newvalue;
+    if (isEmpty())
+    {
+        printf("Circular Queue is Empty.\n");
+        return;
+    }
+    printf("Enter the index (starting from 1): ");
+    scanf("%d", &index);
+    printf("Enter new value: ");
+    scanf("%d", &newvalue);
+
+    CQ[(index + front - 1) % MAX] = newvalue;
+    printf("New Value Updated.\n");
+}
+
+// Main function
+int main()
+{
+    int ch;
+    while (1)
+    {
+        printf("\nCircular Queue Operations:\n");
+        printf("1. Insert\n2. Delete\n3. Peek\n4. Change\n5. Display\n6. isFull\n7. isEmpty\n8. Exit\n");
+        printf("Enter Your Choice: ");
+        scanf("%d", &ch);
+
+        switch (ch)
+        {
+        case 1:
+            insert();
+            break;
+        case 2:
+            del();
+            break;
+        case 3:
+            peek();
+            break;
+        case 4:
+            change();
+            break;
+        case 5:
+            display();
+            break;
+        case 6:
+            if (isFull())
+                printf("Yes, Circular Queue is Full.\n");
+            else
+                printf("No, Circular Queue is not Full.\n");
+            break;
+        case 7:
+            if (isEmpty())
+                printf("Yes, Circular Queue is Empty.\n");
+            else
+                printf("No, Circular Queue is not Empty.\n");
+            break;
+        case 8:
+            exit(0);
+        default:
+            printf("Invalid Choice..\n");
+        }
+    }
+}
